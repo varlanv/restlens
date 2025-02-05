@@ -12,6 +12,8 @@ import java.util.function.Supplier;
 @NotNullByDefault
 public class Specifications {
 
+    History history = new History();
+
     public RequestBody.Steps.ResultStep requestBody(Function<RequestBody.Steps.Start, RequestBody.Steps.ResultStep> stepFunction) {
         return stepFunction.apply(new RequestBody.Steps.Start());
     }

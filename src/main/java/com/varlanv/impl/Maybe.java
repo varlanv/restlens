@@ -29,8 +29,12 @@ public final class Maybe<T> {
         return new Maybe<>(value);
     }
 
+    public boolean isPresent() {
+        return value != null;
+    }
+
     public void ifPresent(Consumer<@NotNull T> consumer) {
-        if (value != null) {
+        if (isPresent()) {
             consumer.accept(value);
         }
     }

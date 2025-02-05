@@ -38,17 +38,17 @@ public class JsonMap {
 
     @Contract(pure = true)
     public JsonMap putMany(String key, Integer... values) {
-        return putManyObj(key, Function.identity(), Arrays.asList(values));
+        return putManyObj(key, i -> i, Arrays.asList(values));
     }
 
     @Contract(pure = true)
     public JsonMap putMany(String key, BigDecimal... values) {
-        return putManyObj(key, Function.identity(), Arrays.asList(values));
+        return putManyObj(key, b -> b, Arrays.asList(values));
     }
 
     @Contract(pure = true)
     public JsonMap put(String key, BigDecimal value) {
-        return putObj(key, value, Function.identity());
+        return putObj(key, value, b -> b);
     }
 
     @Contract(pure = true)
