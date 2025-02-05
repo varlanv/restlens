@@ -12,4 +12,5 @@ dependencies {
     testImplementation("org.json:json:20250107")
     testImplementation("io.swagger.core.v3:swagger-annotations:2.2.28")
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
+    testImplementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.18.2")
 }
