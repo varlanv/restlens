@@ -36,9 +36,9 @@ class JsonMapTest {
         void should_parse_string_map() {
             var subject = new JsonMap().put("key", "value");
             assertThat(subject.toJson()).isEqualTo("""
-                    {
-                      "key": "value"
-                    }"""
+                {
+                  "key": "value"
+                }"""
             );
         }
 
@@ -46,9 +46,9 @@ class JsonMapTest {
         void should_parse_integer_map() {
             var subject = new JsonMap().put("key", 123);
             assertThat(subject.toJson()).isEqualTo("""
-                    {
-                      "key": 123
-                    }"""
+                {
+                  "key": 123
+                }"""
             );
         }
 
@@ -56,10 +56,10 @@ class JsonMapTest {
         void should_parse_string_and_integer_map() {
             var subject = new JsonMap().put("stringKey", "value").put("integerKey", 123);
             assertThat(subject.toJson()).isEqualTo("""
-                    {
-                      "stringKey": "value",
-                      "integerKey": 123
-                    }"""
+                {
+                  "stringKey": "value",
+                  "integerKey": 123
+                }"""
             );
         }
 
@@ -67,9 +67,9 @@ class JsonMapTest {
         void should_parse_bigdecimal_map() {
             var subject = new JsonMap().put("key", new BigDecimal("12.34"));
             assertThat(subject.toJson()).isEqualTo("""
-                    {
-                      "key": 12.34
-                    }"""
+                {
+                  "key": 12.34
+                }"""
             );
         }
 
@@ -77,9 +77,9 @@ class JsonMapTest {
         void should_parse_bigdecimal_list_map() {
             var subject = new JsonMap().putMany("key", new BigDecimal("12.34"), new BigDecimal("56.789"));
             assertThat(subject.toJson()).isEqualTo("""
-                    {
-                      "key": [12.34, 56.789]
-                    }"""
+                {
+                  "key": [12.34, 56.789]
+                }"""
             );
         }
 
@@ -87,9 +87,9 @@ class JsonMapTest {
         void should_parse_string_list_map() {
             var subject = new JsonMap().putMany("key", "val1", "val2", "val3");
             assertThat(subject.toJson()).isEqualTo("""
-                    {
-                      "key": ["val1", "val2", "val3"]
-                    }"""
+                {
+                  "key": ["val1", "val2", "val3"]
+                }"""
             );
         }
 
@@ -98,9 +98,9 @@ class JsonMapTest {
             var strings = new String[0];
             var subject = new JsonMap().putMany("key", strings);
             assertThat(subject.toJson()).isEqualTo("""
-                    {
-                      "key": []
-                    }"""
+                {
+                  "key": []
+                }"""
             );
         }
 
@@ -109,10 +109,10 @@ class JsonMapTest {
             var strings = new String[0];
             var subject = new JsonMap().putMany("key", strings).put("integerKey", 123);
             assertThat(subject.toJson()).isEqualTo("""
-                    {
-                      "key": [],
-                      "integerKey": 123
-                    }"""
+                {
+                  "key": [],
+                  "integerKey": 123
+                }"""
             );
         }
 
@@ -122,10 +122,10 @@ class JsonMapTest {
             var integers = new Integer[0];
             var subject = new JsonMap().putMany("strings", strings).putMany("integers", integers);
             assertThat(subject.toJson()).isEqualTo("""
-                    {
-                      "strings": [],
-                      "integers": []
-                    }"""
+                {
+                  "strings": [],
+                  "integers": []
+                }"""
             );
         }
     }

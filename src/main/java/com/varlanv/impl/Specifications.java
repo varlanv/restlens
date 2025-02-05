@@ -194,22 +194,22 @@ public class Specifications {
         public RequestBodyFieldsSpec requiredInt(String path, Function<IntegerSpecStart, IntegerSpecEnd> function) {
             var intSpec = function.apply(new IntegerSpecStart());
             return new RequestBodyFieldsSpec(
-                    this.optional,
-                    CollectionUtil.concatToListFinal(
-                            fields,
-                            intSpec.toOpenApiField(path, true)
-                    )
+                this.optional,
+                CollectionUtil.concatToListFinal(
+                    fields,
+                    intSpec.toOpenApiField(path, true)
+                )
             );
         }
 
         public RequestBodyFieldsSpec optionalInt(String path, Function<IntegerSpecStart, IntegerSpecEnd> function) {
             var intSpec = function.apply(new IntegerSpecStart());
             return new RequestBodyFieldsSpec(
-                    this.optional,
-                    CollectionUtil.concatToListFinal(
-                            fields,
-                            intSpec.toOpenApiField(path, false)
-                    )
+                this.optional,
+                CollectionUtil.concatToListFinal(
+                    fields,
+                    intSpec.toOpenApiField(path, false)
+                )
             );
         }
     }
@@ -275,12 +275,12 @@ public class Specifications {
             this.minimumInclusive.ifPresent(v -> options.put("minimum", v.toString()));
             this.multipleOf.ifPresent(v -> options.put("multipleOf", v.toString()));
             return new OpenApiField<>(
-                    path,
-                    required,
-                    OpenApiFieldType.INT32,
-                    this.exampleValue,
-                    this.defaultValue,
-                    Collections.unmodifiableMap(options)
+                path,
+                required,
+                OpenApiFieldType.INT32,
+                this.exampleValue,
+                this.defaultValue,
+                Collections.unmodifiableMap(options)
             );
         }
 
@@ -289,14 +289,14 @@ public class Specifications {
                 throw new OpenApiException("Fail");
             }
             return new IntegerSpecEnd(
-                    this.exampleValue,
-                    description,
-                    this.defaultValue,
-                    this.minimumExclusive,
-                    this.minimumInclusive,
-                    this.maximumExclusive,
-                    this.maximumInclusive,
-                    this.multipleOf
+                this.exampleValue,
+                description,
+                this.defaultValue,
+                this.minimumExclusive,
+                this.minimumInclusive,
+                this.maximumExclusive,
+                this.maximumInclusive,
+                this.multipleOf
             );
         }
 
@@ -305,14 +305,14 @@ public class Specifications {
                 throw new OpenApiException("Fail");
             }
             return new IntegerSpecEnd(
-                    this.exampleValue,
-                    this.description,
-                    this.defaultValue,
-                    Maybe.of(value),
-                    this.minimumInclusive,
-                    this.maximumExclusive,
-                    this.maximumInclusive,
-                    this.multipleOf
+                this.exampleValue,
+                this.description,
+                this.defaultValue,
+                Maybe.of(value),
+                this.minimumInclusive,
+                this.maximumExclusive,
+                this.maximumInclusive,
+                this.multipleOf
             );
         }
 
@@ -321,14 +321,14 @@ public class Specifications {
                 throw new OpenApiException("Fail");
             }
             return new IntegerSpecEnd(
-                    this.exampleValue,
-                    this.description,
-                    this.minimumExclusive,
-                    this.defaultValue,
-                    Maybe.of(value),
-                    this.maximumExclusive,
-                    this.maximumInclusive,
-                    this.multipleOf
+                this.exampleValue,
+                this.description,
+                this.minimumExclusive,
+                this.defaultValue,
+                Maybe.of(value),
+                this.maximumExclusive,
+                this.maximumInclusive,
+                this.multipleOf
             );
         }
 
@@ -337,14 +337,14 @@ public class Specifications {
                 throw new OpenApiException("Fail");
             }
             return new IntegerSpecEnd(
-                    this.exampleValue,
-                    this.description,
-                    this.defaultValue,
-                    this.minimumExclusive,
-                    this.minimumInclusive,
-                    Maybe.of(value),
-                    this.maximumInclusive,
-                    this.multipleOf
+                this.exampleValue,
+                this.description,
+                this.defaultValue,
+                this.minimumExclusive,
+                this.minimumInclusive,
+                Maybe.of(value),
+                this.maximumInclusive,
+                this.multipleOf
             );
         }
 
@@ -353,14 +353,14 @@ public class Specifications {
                 throw new OpenApiException("Fail");
             }
             return new IntegerSpecEnd(
-                    this.exampleValue,
-                    this.description,
-                    this.defaultValue,
-                    this.minimumExclusive,
-                    this.minimumInclusive,
-                    this.maximumExclusive,
-                    Maybe.of(value),
-                    this.multipleOf
+                this.exampleValue,
+                this.description,
+                this.defaultValue,
+                this.minimumExclusive,
+                this.minimumInclusive,
+                this.maximumExclusive,
+                Maybe.of(value),
+                this.multipleOf
             );
         }
 
@@ -369,14 +369,14 @@ public class Specifications {
                 throw new OpenApiException("Failing early because of mismatch in OpenAPI specification: example value [%s] is not multiple of [%s]", exampleValue, value);
             }
             return new IntegerSpecEnd(
-                    this.exampleValue,
-                    this.description,
-                    this.defaultValue,
-                    this.minimumExclusive,
-                    this.minimumInclusive,
-                    this.maximumExclusive,
-                    this.maximumInclusive,
-                    Maybe.of(value)
+                this.exampleValue,
+                this.description,
+                this.defaultValue,
+                this.minimumExclusive,
+                this.minimumInclusive,
+                this.maximumExclusive,
+                this.maximumInclusive,
+                Maybe.of(value)
             );
         }
     }
