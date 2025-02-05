@@ -11,7 +11,7 @@ import java.util.function.Function;
 
 public class JsonMap {
 
-    private final LinkedHashMap<String, Object> map;
+    LinkedHashMap<String, Object> map;
 
     public JsonMap() {
         this(new LinkedHashMap<>());

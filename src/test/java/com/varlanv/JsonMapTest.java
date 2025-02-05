@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class JsonMapTest {
+class JsonMapTest extends BaseTest {
 
     @Nested
     class PutString {

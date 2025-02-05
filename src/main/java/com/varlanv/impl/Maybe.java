@@ -10,7 +10,7 @@ public final class Maybe<T> {
     private static final Maybe<?> EMPTY = new Maybe<>();
 
     @Nullable
-    private final T value;
+    T value;
 
     private Maybe(T value) {
         this.value = value;

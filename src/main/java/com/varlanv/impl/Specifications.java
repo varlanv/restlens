@@ -1,5 +1,7 @@
 package com.varlanv.impl;
 
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.PackagePrivate;
 import org.jetbrains.annotations.NotNullByDefault;
 
 import java.util.Collections;
@@ -15,7 +17,9 @@ public class Specifications {
     History history = new History();
 
     public RequestBody.Steps.ResultStep requestBody(Function<RequestBody.Steps.Start, RequestBody.Steps.ResultStep> stepFunction) {
-        return stepFunction.apply(new RequestBody.Steps.Start());
+        var resultStep = stepFunction.apply(new RequestBody.Steps.Start());
+        history.record(resultStep);
+        return resultStep;
     }
 
     public static class RequestBody {
@@ -49,15 +53,11 @@ public class Specifications {
                 }
             }
 
+            @RequiredArgsConstructor
             public static class OpIdStep {
 
-                final HttpMethod httpMethod;
-                final String path;
-
-                public OpIdStep(HttpMethod httpMethod, String path) {
-                    this.httpMethod = httpMethod;
-                    this.path = path;
-                }
+                HttpMethod httpMethod;
+                String path;
 
                 public DescStep withOperationId(String operationId) {
                     return new DescStep(operationId, this);
@@ -68,15 +68,11 @@ public class Specifications {
                 }
             }
 
+            @RequiredArgsConstructor
             public static class DescStep {
 
-                final String operationId;
-                final OpIdStep parent;
-
-                public DescStep(String operationId, OpIdStep parent) {
-                    this.operationId = operationId;
-                    this.parent = parent;
-                }
+                String operationId;
+                OpIdStep parent;
 
                 public FieldsStep describedAs(String summary) {
                     return this.describedAs(summary, "");
@@ -87,17 +83,12 @@ public class Specifications {
                 }
             }
 
+            @RequiredArgsConstructor
             public static class FieldsStep {
 
-                final String summary;
-                final String description;
-                final DescStep parent;
-
-                public FieldsStep(String summary, String description, DescStep parent) {
-                    this.summary = summary;
-                    this.description = description;
-                    this.parent = parent;
-                }
+                String summary;
+                String description;
+                DescStep parent;
 
                 public ResultStep withBodyFields(Function<RequestBodyFieldsSpec, RequestBodyFieldsSpec> bodyFieldsSpec) {
                     var fields = bodyFieldsSpec.apply(new RequestBodyFieldsSpec(false));
@@ -110,15 +101,12 @@ public class Specifications {
                 }
             }
 
+            @RequiredArgsConstructor
             public static class ResultStep {
 
-                final RequestBodyFieldsSpec fields;
-                final FieldsStep parent;
-
-                public ResultStep(RequestBodyFieldsSpec fields, FieldsStep parent) {
-                    this.fields = fields;
-                    this.parent = parent;
-                }
+                @PackagePrivate
+                RequestBodyFieldsSpec fields;
+                FieldsStep parent;
 
                 public <T> Supplier<T> mappedToObject(Class<T> type, ThrowingBiFunction<Map<String, Object>, Class<T>, T> function) {
                     return () -> {
@@ -155,42 +143,32 @@ public class Specifications {
         }
     }
 
-    public static class OpenApiField<T> {
+    @RequiredArgsConstructor
+    public static final class OpenApiField<T> {
 
-        final String path;
-        final Boolean required;
-        final OpenApiFieldType openApiType;
-        final T exampleValue;
-        final Maybe<T> defaultValue;
-        final Map<String, String> options;
-
-        public OpenApiField(String path,
-                            Boolean required,
-                            OpenApiFieldType fieldType,
-                            T exampleValue,
-                            Maybe<T> defaultValue,
-                            Map<String, String> options) {
-            this.path = path;
-            this.required = required;
-            this.openApiType = fieldType;
-            this.exampleValue = exampleValue;
-            this.defaultValue = defaultValue;
-            this.options = options;
-        }
+        @PackagePrivate
+        String path;
+        @PackagePrivate
+        Boolean required;
+        @PackagePrivate
+        OpenApiFieldType openApiType;
+        @PackagePrivate
+        T exampleValue;
+        @PackagePrivate
+        Maybe<T> defaultValue;
+        @PackagePrivate
+        Map<String, String> options;
     }
 
+    @RequiredArgsConstructor
     public static class RequestBodyFieldsSpec {
 
-        final Boolean optional;
-        final List<OpenApiField<?>> fields;
+        Boolean optional;
+        @PackagePrivate
+        List<OpenApiField<?>> fields;
 
         public RequestBodyFieldsSpec(Boolean optional) {
             this(optional, Collections.emptyList());
-        }
-
-        RequestBodyFieldsSpec(Boolean optional, List<OpenApiField<?>> fields) {
-            this.optional = optional;
-            this.fields = fields;
         }
 
         public RequestBodyFieldsSpec requiredInt(String path, Function<IntegerSpecStart, IntegerSpecEnd> function) {
@@ -223,44 +201,27 @@ public class Specifications {
         }
     }
 
+    @RequiredArgsConstructor
     public static class IntegerSpecEnd {
 
-        private final Integer exampleValue;
-        private final String description;
-        private final Maybe<Integer> defaultValue;
-        private final Maybe<Integer> minimumExclusive;
-        private final Maybe<Integer> minimumInclusive;
-        private final Maybe<Integer> maximumExclusive;
-        private final Maybe<Integer> maximumInclusive;
-        private final Maybe<Integer> multipleOf;
+        Integer exampleValue;
+        String description;
+        Maybe<Integer> defaultValue;
+        Maybe<Integer> minimumExclusive;
+        Maybe<Integer> minimumInclusive;
+        Maybe<Integer> maximumExclusive;
+        Maybe<Integer> maximumInclusive;
+        Maybe<Integer> multipleOf;
 
         public IntegerSpecEnd(Integer exampleValue) {
-            this.exampleValue = exampleValue;
-            this.description = "";
-            this.defaultValue = Maybe.empty();
-            this.minimumExclusive = Maybe.empty();
-            this.minimumInclusive = Maybe.empty();
-            this.maximumExclusive = Maybe.empty();
-            this.maximumInclusive = Maybe.empty();
-            this.multipleOf = Maybe.empty();
-        }
-
-        public IntegerSpecEnd(Integer exampleValue,
-                              String description,
-                              Maybe<Integer> defaultValue,
-                              Maybe<Integer> minimumExclusive,
-                              Maybe<Integer> minimumInclusive,
-                              Maybe<Integer> maximumExclusive,
-                              Maybe<Integer> maximumInclusive,
-                              Maybe<Integer> multipleOf) {
-            this.exampleValue = exampleValue;
-            this.description = description;
-            this.defaultValue = defaultValue;
-            this.minimumExclusive = minimumExclusive;
-            this.minimumInclusive = minimumInclusive;
-            this.maximumExclusive = maximumExclusive;
-            this.maximumInclusive = maximumInclusive;
-            this.multipleOf = multipleOf;
+            this(exampleValue,
+                "",
+                Maybe.empty(),
+                Maybe.empty(),
+                Maybe.empty(),
+                Maybe.empty(),
+                Maybe.empty(),
+                Maybe.empty());
         }
 
         OpenApiField<Integer> toOpenApiField(String path, Boolean required) {
