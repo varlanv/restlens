@@ -5,11 +5,8 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum OpenApiFieldType {
+public class IndexedValue<T> {
 
-    INT32("int32"),
-    INT64("int64"),
-    STRING("string");
-
-    String openApiName;
+    Integer index;
+    T value;
 }

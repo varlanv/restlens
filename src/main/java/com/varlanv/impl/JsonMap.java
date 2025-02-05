@@ -1,4 +1,4 @@
-package com.varlanv;
+package com.varlanv.impl;
 
 import org.jetbrains.annotations.Contract;
 
@@ -11,19 +11,19 @@ import java.util.function.Function;
 
 public class JsonMap {
 
-    LinkedHashMap<String, Object> map;
+    LinkedHashMap<String, Object> state;
 
     public JsonMap() {
         this(new LinkedHashMap<>());
     }
 
-    JsonMap(LinkedHashMap<String, Object> map) {
-        this.map = map;
+    JsonMap(LinkedHashMap<String, Object> state) {
+        this.state = state;
     }
 
     @Contract(pure = true)
     public JsonMap put(String key, String value) {
-        return putObj(key, value, str -> "\"" + str + "\"");
+        return putObj(Objects.requireNonNull(key), Objects.requireNonNull(value), str -> "\"" + str + "\"");
     }
 
     @Contract(pure = true)
@@ -53,11 +53,14 @@ public class JsonMap {
 
     @Contract(pure = true)
     private <T> JsonMap putObj(String key, T value, Function<T, Object> valueMapper) {
-        var newMap = new LinkedHashMap<>(map);
-        newMap.put("\"" + Objects.requireNonNull(key, "Null keys are not allowed") + "\"",
-            valueMapper.apply(Objects.requireNonNull(value, "Null values are not allowed"))
+        return new JsonMap(
+            CollectionUtil.putToNewMap(
+                "\"" + key + "\"",
+                valueMapper.apply(value),
+                state,
+                LinkedHashMap::new
+            )
         );
-        return new JsonMap(newMap);
     }
 
     @Contract(pure = true)
@@ -74,20 +77,24 @@ public class JsonMap {
             }
         }
         sb.append("]");
-        var newMap = new LinkedHashMap<>(map);
-        newMap.put("\"" + Objects.requireNonNull(key, "Null keys are not allowed") + "\"",
-            sb.toString()
+        return new JsonMap(
+            CollectionUtil.putToNewMap(
+                "\"" + key + "\"",
+                sb.toString(),
+                state,
+                LinkedHashMap::new
+            )
         );
-        return new JsonMap(newMap);
+
     }
 
     @Contract(pure = true)
     public String toJson() {
-        if (map.isEmpty()) {
+        if (state.isEmpty()) {
             return "{}";
         }
         var jsonBuilder = new StringBuilder("{\n");
-        var iter = map.entrySet().iterator();
+        var iter = state.entrySet().iterator();
         while (iter.hasNext()) {
             var entry = iter.next();
             jsonBuilder.append("  ").append(entry.getKey()).append(": ").append(entry.getValue());

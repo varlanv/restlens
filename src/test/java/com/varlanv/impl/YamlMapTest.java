@@ -1,7 +1,8 @@
-package com.varlanv;
+package com.varlanv.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.varlanv.BaseTest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

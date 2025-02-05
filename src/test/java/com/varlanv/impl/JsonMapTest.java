@@ -1,5 +1,6 @@
-package com.varlanv;
+package com.varlanv.impl;
 
+import com.varlanv.BaseTest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

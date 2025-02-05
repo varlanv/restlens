@@ -1,10 +1,13 @@
-package com.varlanv;
+package com.varlanv.impl;
 
 import lombok.experimental.PackagePrivate;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.VisibleForTesting;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class YamlMap {
 
@@ -22,9 +25,14 @@ public class YamlMap {
 
     @Contract(pure = true)
     public YamlMap putNested(String key, Map<String, ?> map) {
-        var newState = new LinkedHashMap<>(this.state);
-        newState.put(Objects.requireNonNull(key, "Null keys are not allowed"), Objects.requireNonNull(map, "Null values are not allowed"));
-        return new YamlMap(newState);
+        return new YamlMap(
+            CollectionUtil.putToNewMap(
+                key,
+                map,
+                state,
+                LinkedHashMap::new
+            )
+        );
     }
 
     @Contract(pure = true)
@@ -59,12 +67,14 @@ public class YamlMap {
 
     @Contract(pure = true)
     private <T> YamlMap putObj(String key, T value) {
-        var newState = new LinkedHashMap<>(state);
-        newState.put(
-            Objects.requireNonNull(key, "Null keys are not allowed"),
-            Objects.requireNonNull(value, "Null values are not allowed")
+        return new YamlMap(
+            CollectionUtil.putToNewMap(
+                key,
+                value,
+                state,
+                LinkedHashMap::new
+            )
         );
-        return new YamlMap(newState);
     }
 
     @Contract(pure = true)
@@ -72,12 +82,14 @@ public class YamlMap {
         if (values.isEmpty()) {
             return putObj(key, "");
         }
-        var newState = new LinkedHashMap<>(state);
-        newState.put(
-            Objects.requireNonNull(key, "Null keys are not allowed"),
-            Objects.requireNonNull(values, "Null values are not allowed")
+        return new YamlMap(
+            CollectionUtil.putToNewMap(
+                key,
+                values,
+                state,
+                LinkedHashMap::new
+            )
         );
-        return new YamlMap(newState);
     }
 
     @Contract(pure = true)

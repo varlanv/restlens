@@ -18,7 +18,7 @@ public class Specifications {
 
     public RequestBody.Steps.ResultStep requestBody(Function<RequestBody.Steps.Start, RequestBody.Steps.ResultStep> stepFunction) {
         var resultStep = stepFunction.apply(new RequestBody.Steps.Start());
-        history.record(resultStep);
+        history.record(resultStep.fields.fields);
         return resultStep;
     }
 
@@ -157,7 +157,7 @@ public class Specifications {
         @PackagePrivate
         Maybe<T> defaultValue;
         @PackagePrivate
-        Map<String, String> options;
+        Map<String, Object> options;
     }
 
     @RequiredArgsConstructor

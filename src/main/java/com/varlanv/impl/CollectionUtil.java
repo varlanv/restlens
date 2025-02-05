@@ -2,9 +2,8 @@ package com.varlanv.impl;
 
 import org.jetbrains.annotations.Contract;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.function.UnaryOperator;
 
 class CollectionUtil {
 
@@ -22,5 +21,15 @@ class CollectionUtil {
         newList.addAll(first);
         newList.add(value);
         return Collections.unmodifiableList(newList);
+    }
+
+    @Contract(pure = true)
+    static <K, V, M extends Map<K, V>> M putToNewMap(K key, V value, M originalMap, UnaryOperator<M> newMapSupplier) {
+        var newMap = newMapSupplier.apply(originalMap);
+        newMap.put(
+            Objects.requireNonNull(key, "Null keys are not allowed"),
+            Objects.requireNonNull(value, "Null values are not allowed")
+        );
+        return newMap;
     }
 }
